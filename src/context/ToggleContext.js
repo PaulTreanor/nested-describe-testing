@@ -1,8 +1,8 @@
 import React from 'react';
 
 const ToggleContext = React.createContext({
-  isToggleDisabled: false,
-  setToggleDisabled: () => {}
+  isToggleCanBeEnabled: false,
+  setIsToggleCanBeEnabled: () => {}
 });
 
 export default ToggleContext;

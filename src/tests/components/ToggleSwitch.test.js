@@ -1,12 +1,16 @@
-import '@testing-library/jest-dom'
-import { render, screen, fireEvent } from "@testing-library/react"
-import ToggleSwitch from "../../components/ToggleSwitch"
-
+import '@testing-library/jest-dom';
+import { render, screen, fireEvent } from "@testing-library/react";
+import ToggleSwitch from "../../components/ToggleSwitch";
+import ToggleContext from "../../context/ToggleContext";
 
 describe('ToggleSwitch - Interactive', () => {
   test('should toggle from off to on', () => {
     const handleToggle = jest.fn();
-    render(<ToggleSwitch isEnabled={false} onToggle={handleToggle} isDisabled={false} />);
+    render(
+      <ToggleContext.Provider value={{ isToggleCanBeEnabled: true }}>
+        <ToggleSwitch isEnabled={false} onToggle={handleToggle} />
+      </ToggleContext.Provider>
+    );
     
     const checkbox = screen.getByRole('checkbox');
     fireEvent.click(checkbox);
@@ -14,9 +18,13 @@ describe('ToggleSwitch - Interactive', () => {
     expect(handleToggle).toHaveBeenCalledTimes(1);
   });
 
-  test('should toggle from on to off', () => {
+  test('should toggle from on to off', () => { 
     const handleToggle = jest.fn();
-    render(<ToggleSwitch isEnabled={true} onToggle={handleToggle} isDisabled={false} />);
+    render(
+      <ToggleContext.Provider value={{ isToggleCanBeEnabled: true }}>
+        <ToggleSwitch isEnabled={true} onToggle={handleToggle} />
+      </ToggleContext.Provider>
+    );
     
     const checkbox = screen.getByRole('checkbox');
     fireEvent.click(checkbox);
@@ -28,7 +36,11 @@ describe('ToggleSwitch - Interactive', () => {
 describe('ToggleSwitch - Non-Interactive', () => {
   test('should not toggle when disabled', () => {
     const handleToggle = jest.fn();
-    render(<ToggleSwitch isEnabled={false} onToggle={handleToggle} isDisabled={true} />);
+    render(
+      <ToggleContext.Provider value={{ isToggleCanBeEnabled: false }}>
+        <ToggleSwitch isEnabled={false} onToggle={handleToggle} />
+      </ToggleContext.Provider>
+    );
     
     const checkbox = screen.getByRole('checkbox');
     fireEvent.click(checkbox);
@@ -37,7 +49,11 @@ describe('ToggleSwitch - Non-Interactive', () => {
   });
 
   test('should display as disabled', () => {
-    render(<ToggleSwitch isEnabled={false} onToggle={() => {}} isDisabled={true} />);
+    render(
+      <ToggleContext.Provider value={{ isToggleCanBeEnabled: false }}>
+        <ToggleSwitch isEnabled={false} onToggle={() => {}} />
+      </ToggleContext.Provider>
+    );
     
     const checkbox = screen.getByRole('checkbox');
     expect(checkbox).toBeDisabled();

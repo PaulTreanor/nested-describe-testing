@@ -3,6 +3,7 @@ import ToggleSwitch from './components/ToggleSwitch'
 import './App.css'
 
 function App() {
+
   const [isEnabled, setIsEnabled] = useState(false);
 
   return (
